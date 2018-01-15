@@ -1,11 +1,15 @@
 package microservicios2.micro2.discover;
 
+import microservicios2.micro2.controller.Peer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.InetAddress;
 
 @Service
-public class Discover {
+public class Discover implements DicoverInterface {
+    @Autowired
+    DiscoverCache discoverCache;
 
     public void sendBroadcast() throws Exception {
         BroadcastingClient broadcast = new BroadcastingClient(1);
@@ -18,6 +22,11 @@ public class Discover {
         "}");
         broadcast.receivePacket();
         broadcast.close();
+    }
+
+    @Override
+    public void insert(Peer peer) {
+        discoverCache.purge();
     }
 
 }
