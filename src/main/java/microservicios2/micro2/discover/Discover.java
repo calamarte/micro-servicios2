@@ -5,6 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.InetAddress;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 @Service
 public class Discover implements DicoverInterface {
@@ -12,14 +16,19 @@ public class Discover implements DicoverInterface {
     DiscoverCache discoverCache;
 
     public void sendBroadcast() throws Exception {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date now = Calendar.getInstance().getTime();
+        String nowString = dateFormat.format(now);
+
+
         BroadcastingClient broadcast = new BroadcastingClient(1);
-        broadcast.discoverServers("{" +
-                "ip: " + InetAddress.getLocalHost().getHostAddress() +
-                ",name: " + InetAddress.getLocalHost().getHostName() +
-                ",controllerUrl: " + InetAddress.getLocalHost().getHostAddress() + ":8080/" +
-                //Enviar el date de ahora en forma de string. Luego hay que pasarlo de String a Date
-                ",date: 300" +
-        "}");
+        //Envia :  ip-controllerUrl-name-date
+        broadcast.discoverServers(
+                InetAddress.getLocalHost().getHostAddress() +
+                "-" + InetAddress.getLocalHost().getHostAddress() + ":8080/" +
+                "-" + InetAddress.getLocalHost().getHostName() +
+                "-" + nowString
+        );
         broadcast.receivePacket();
         broadcast.close();
     }
