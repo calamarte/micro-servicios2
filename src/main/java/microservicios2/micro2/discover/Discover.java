@@ -9,7 +9,7 @@ import java.net.InetAddress;
 @Service
 public class Discover implements DicoverInterface {
     @Autowired
-    DiscoverCache discoverCache;
+    private DiscoverCache discoverCache;
 
     public void sendBroadcast() throws Exception {
         BroadcastingClient broadcast = new BroadcastingClient(1);
@@ -20,13 +20,12 @@ public class Discover implements DicoverInterface {
                 //Enviar el date de ahora en forma de string. Luego hay que pasarlo de String a Date
                 ",date: 300" +
         "}");
-        broadcast.receivePacket();
         broadcast.close();
     }
 
     @Override
     public void insert(Peer peer) {
-        discoverCache.purge();
+        discoverCache.insertPeer(peer);
     }
 
 }
