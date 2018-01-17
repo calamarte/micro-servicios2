@@ -1,6 +1,7 @@
 package microservicios2.micro2.discover;
 
 import microservicios2.micro2.controller.Peer;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class DiscoverCache implements Cache{
         discoveredPeers.add(newPeer);
     }
 
+    @Scheduled(fixedRate = 15 * 60 * 1000)
     public void purge(){
         for(int peerIndex = 0; peerIndex < discoveredPeers.size(); peerIndex++){
             Peer peer = discoveredPeers.get(peerIndex);

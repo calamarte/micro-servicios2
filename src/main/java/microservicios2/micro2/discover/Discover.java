@@ -2,6 +2,7 @@ package microservicios2.micro2.discover;
 
 import microservicios2.micro2.controller.Peer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.net.InetAddress;
@@ -21,16 +22,14 @@ public class Discover implements DicoverInterface {
         String nowString = dateFormat.format(now);
 
 
-        BroadcastingClient broadcast = new BroadcastingClient(1);
+        BroadcastingClient broadcast = new BroadcastingClient(0);
 
         //Envia :  ip-controllerUrl-name-date
-        broadcast.discoverServers(
-                InetAddress.getLocalHost().getHostAddress() +
+        broadcast.discoverServers(    InetAddress.getLocalHost().getHostAddress() +
                 "-" + InetAddress.getLocalHost().getHostAddress() + ":8080/" +
                 "-" + InetAddress.getLocalHost().getHostName() +
                 "-" + nowString
         );
-        broadcast.receivePacket();
         broadcast.close();
     }
 

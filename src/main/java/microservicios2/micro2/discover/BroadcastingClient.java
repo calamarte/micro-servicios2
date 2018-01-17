@@ -41,7 +41,6 @@ public class BroadcastingClient {
             if (networkInterface.isLoopback() || !networkInterface.isUp()) {
                 continue;
             }
-
             broadcastList.addAll(networkInterface.getInterfaceAddresses()
                     .stream()
                     .filter(address -> address.getBroadcast() != null)
