@@ -50,7 +50,7 @@ public class BroadcastingEchoServer extends Thread {
 //                    running = false;
 //                    continue;
 //                }
-//                String mistDatos = myIp+" ruta "+myHostName;
+//                String mistDatos = myIp+" ruta "+myHostName;git
 //                buf = mistDatos.getBytes();
 //                packet = new DatagramPacket(buf, buf.length, address, port);
 //                socket.send(packet);
