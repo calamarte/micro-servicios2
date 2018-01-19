@@ -16,8 +16,5 @@ public class Micro2Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Micro2Application.class, args);
-
-		Hilo h = new Hilo();
-		h.run();
 	}
 }
