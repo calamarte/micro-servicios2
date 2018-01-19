@@ -26,9 +26,9 @@ public class Discover implements DicoverInterface {
 
         //Envia :  ip-controllerUrl-name-date
         broadcast.discoverServers(    InetAddress.getLocalHost().getHostAddress() +
-                "-" + InetAddress.getLocalHost().getHostAddress() + ":8080/" +
-                "-" + InetAddress.getLocalHost().getHostName() +
-                "-" + nowString
+                " " + InetAddress.getLocalHost().getHostAddress() + ":8080/" +
+                " " + InetAddress.getLocalHost().getHostName() +
+                " " + nowString
         );
         broadcast.close();
     }

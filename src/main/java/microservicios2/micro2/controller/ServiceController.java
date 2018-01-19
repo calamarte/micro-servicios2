@@ -33,8 +33,10 @@ public class ServiceController {
     }
 
 
-    @Scheduled(fixedRate = 15 * 60 * 1000)
+    @Scheduled(fixedRate = 4000)
+
     public void reportCurrentTime() throws Exception {
+        System.out.println("Enviando");
         discover.sendBroadcast();
     }
 }
