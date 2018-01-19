@@ -32,10 +32,9 @@ public class ServiceController {
         discover.insert(peer);
     }
 
-    private static final Logger log = LoggerFactory.getLogger(ServiceController.class);
 
-    @Scheduled(fixedRate = 500)
-    public void reportCurrentTime() {
-        log.info("The time is now {}");
+    @Scheduled(fixedRate = 30 * 60 * 1000)
+    public void reportCurrentTime() throws Exception {
+        discover.sendBroadcast();
     }
 }
