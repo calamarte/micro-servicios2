@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+
 @RestController
 public class ServiceController {
 
@@ -30,10 +32,9 @@ public class ServiceController {
         discover.insert(peer);
     }
 
-    private static final Logger log = LoggerFactory.getLogger(ServiceController.class);
 
-    @Scheduled(fixedRate = 500)
-    public void reportCurrentTime() {
-        log.info("The time is now {}");
+    @Scheduled(fixedRate = 15 * 60 * 1000)
+    public void reportCurrentTime() throws Exception {
+        discover.sendBroadcast();
     }
 }
