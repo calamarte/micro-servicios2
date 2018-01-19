@@ -1,5 +1,6 @@
 package microservicios2.micro2.hilo;
 
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -45,15 +46,7 @@ public class BroadcastingEchoServer extends Thread {
                     System.out.println(d);
                 }
 
-//
-//                if (s.equals("end")) {
-//                    running = false;
-//                    continue;
-//                }
-//                String mistDatos = myIp+" ruta "+myHostName;git
-//                buf = mistDatos.getBytes();
-//                packet = new DatagramPacket(buf, buf.length, address, port);
-//                socket.send(packet);
+
             } catch (IOException e) {
                 e.printStackTrace();
                 running = false;
