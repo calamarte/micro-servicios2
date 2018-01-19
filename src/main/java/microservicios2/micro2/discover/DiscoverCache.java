@@ -15,7 +15,7 @@ public class DiscoverCache implements Cache{
         discoveredPeers.add(newPeer);
     }
 
-    @Scheduled(fixedRate = 15 * 60 * 1000)
+    @Scheduled(fixedRate = 30 * 60 * 1000)
     public void purge(){
         for(int peerIndex = 0; peerIndex < discoveredPeers.size(); peerIndex++){
             Peer peer = discoveredPeers.get(peerIndex);
