@@ -4,12 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class BroadcastingClient {
     private DatagramSocket socket;
@@ -26,28 +21,9 @@ public class BroadcastingClient {
         initializeSocketForBroadcasting();
         copyMessageOnBuffer(msg);
 
-        // When we want to broadcast not just to local network, call listAllBroadcastAddresses() and execute broadcastPacket for each value.
         broadcastPacket(address);
 
         return receivePackets();
-    }
-
-    List<InetAddress> listAllBroadcastAddresses() throws SocketException {
-        List<InetAddress> broadcastList = new ArrayList<>();
-        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-        while (interfaces.hasMoreElements()) {
-            NetworkInterface networkInterface = interfaces.nextElement();
-
-            if (networkInterface.isLoopback() || !networkInterface.isUp()) {
-                continue;
-            }
-            broadcastList.addAll(networkInterface.getInterfaceAddresses()
-                    .stream()
-                    .filter(address -> address.getBroadcast() != null)
-                    .map(address -> address.getBroadcast())
-                    .collect(Collectors.toList()));
-        }
-        return broadcastList;
     }
 
     private void initializeSocketForBroadcasting() throws SocketException {

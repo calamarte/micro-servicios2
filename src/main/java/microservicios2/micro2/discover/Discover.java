@@ -24,7 +24,7 @@ public class Discover implements DicoverInterface {
 
         BroadcastingClient broadcast = new BroadcastingClient(0);
 
-        //Envia :  ip-controllerUrl name date
+        //Envia :  ip controllerUrl name date
         broadcast.discoverServers( getFirstNonLoopbackAddress() +
                 " http:/" + getFirstNonLoopbackAddress() + ":8080/controller" +
                 " " + InetAddress.getLocalHost().getHostName() +

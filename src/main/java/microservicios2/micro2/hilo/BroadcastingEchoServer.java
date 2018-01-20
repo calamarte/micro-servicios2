@@ -1,16 +1,10 @@
 package microservicios2.micro2.hilo;
 
-
-import microservicios2.micro2.controller.Peer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
 import java.io.IOException;
 import java.net.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Enumeration;
 
 @Component
@@ -56,13 +50,11 @@ public class BroadcastingEchoServer extends Thread {
     private void sentHttp(String url) {
         try {
             String ip = getFirstNonLoopbackAddress();
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-            Date now = Calendar.getInstance().getTime();
-            String time = dateFormat.format(now);
+            long now = Calendar.getInstance().getTime().getTime();
             String name = InetAddress.getLocalHost().getHostName();
 
             RestTemplate restTemplate = new RestTemplate();
-            restTemplate.postForLocation(url + "/"+ip+"/"+time+"/"+name, null);
+            restTemplate.postForLocation(url + "/"+ip+"/"+now+"/"+name, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
