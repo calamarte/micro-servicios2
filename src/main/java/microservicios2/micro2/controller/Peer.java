@@ -2,6 +2,8 @@ package microservicios2.micro2.controller;
 
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
@@ -34,4 +36,11 @@ public class Peer {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        DateFormat format = new SimpleDateFormat("HH:mm:ss");
+        return "ip: "+this.ip+"\n" +
+                "date: "+format.format(this.date)+"\n" +
+                "name: "+this.name;
+    }
 }

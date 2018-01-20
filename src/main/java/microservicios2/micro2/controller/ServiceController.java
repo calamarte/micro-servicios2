@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @RestController
 public class ServiceController {
@@ -18,15 +21,20 @@ public class ServiceController {
     @Autowired
     private Discover discover;
 
-    @RequestMapping(value = "/controller/{ip}/{time}/{name}",method = RequestMethod.GET)
+    @RequestMapping(value = "/controller/{ip}/{time}/{name}",method = RequestMethod.POST)
     public void getMessage(@PathVariable("ip") String ip,
                              @PathVariable("time") String time,
                              @PathVariable("name") String name){
 
-        //Cambiar por el bean
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
         Peer peer = new Peer();
         peer.setIp(ip);
-        //peer.setDate();
+        try {
+            peer.setDate(dateFormat.parse(time));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         peer.setName(name);
 
         discover.insert(peer);
@@ -34,9 +42,7 @@ public class ServiceController {
 
 
     @Scheduled(fixedRate = 4000)
-
     public void reportCurrentTime() throws Exception {
-        System.out.println("Enviando");
         discover.sendBroadcast();
     }
 }
