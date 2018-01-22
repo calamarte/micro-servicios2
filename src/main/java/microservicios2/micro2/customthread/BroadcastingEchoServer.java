@@ -1,4 +1,4 @@
-package microservicios2.micro2.hilo;
+package microservicios2.micro2.customthread;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
