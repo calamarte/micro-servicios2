@@ -5,7 +5,8 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.net.*;
 import java.util.Calendar;
-import java.util.Enumeration;
+
+import static microservicios2.micro2.utils.utils.getFirstNonLoopbackAddress;
 
 @Component
 public class BroadcastingEchoServer extends Thread {
@@ -32,7 +33,7 @@ public class BroadcastingEchoServer extends Thread {
                 String data = received.replaceAll("\00","");
                 String[] dataArray = data.split(" ");
 
-                if(dataArray[1].startsWith("http://"))sentHttp(dataArray[1]);
+                if(dataArray[1].startsWith("http://")) sendHttp(dataArray[1]);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -42,12 +43,8 @@ public class BroadcastingEchoServer extends Thread {
         socket.close();
     }
 
-    @Override
-    public void destroy() {
-        running = false;
-    }
 
-    private void sentHttp(String url) {
+    private void sendHttp(String url) {
         try {
             String ip = getFirstNonLoopbackAddress();
             long now = Calendar.getInstance().getTime().getTime();
@@ -60,20 +57,4 @@ public class BroadcastingEchoServer extends Thread {
         }
     }
 
-    private String getFirstNonLoopbackAddress() throws SocketException {
-        Enumeration enumerationInterfaces = NetworkInterface.getNetworkInterfaces();
-        while (enumerationInterfaces.hasMoreElements()) {
-            NetworkInterface anInterface = (NetworkInterface) enumerationInterfaces.nextElement();
-            for (Enumeration enumerationAddresses = anInterface.getInetAddresses(); enumerationAddresses.hasMoreElements();) {
-                InetAddress addr = (InetAddress) enumerationAddresses.nextElement();
-                if (!addr.isLoopbackAddress()) {
-                    if (addr instanceof Inet4Address) {
-                        return addr.toString();
-                    }
-
-                }
-            }
-        }
-        return null;
-    }
 }
