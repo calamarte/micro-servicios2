@@ -1,10 +1,9 @@
 package microservicios2.micro2.discover;
 
-import com.sun.javafx.util.Logging;
+
 import microservicios2.micro2.controller.Peer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,7 @@ import java.util.Calendar;
 
 @Component
 public class DiscoverCache implements Cache{
-    @Value("${inactivitiLimit}")
+    @Value("${inactivityLimit}")
     private int inactivityLimit;
 
     private ArrayList<Peer> discoveredPeers = new ArrayList<>();
@@ -35,14 +34,13 @@ public class DiscoverCache implements Cache{
         discoveredPeers.add(newPeer);
     }
 
-    @Scheduled(fixedRateString =  "${purgueInterval}")
+    @Scheduled(fixedRateString =  "${purgeInterval}")
     public void purge(){
 
         long currentTime = Calendar.getInstance().getTime().getTime();
         for(int peerIndex = 0; peerIndex < discoveredPeers.size(); peerIndex++){
             Peer peer = discoveredPeers.get(peerIndex);
             if(peer.getDate().getTime() < (currentTime - inactivityLimit)){
-                System.out.println("entra");
                 discoveredPeers.remove(peerIndex);
             }
         }
