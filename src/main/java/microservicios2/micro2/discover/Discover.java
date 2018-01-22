@@ -2,6 +2,7 @@ package microservicios2.micro2.discover;
 
 import microservicios2.micro2.controller.Peer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.*;
@@ -11,10 +12,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 
+import static microservicios2.micro2.utils.utils.getFirstNonLoopbackAddress;
+
 @Service
 public class Discover implements DicoverInterface {
+    @Value("${controller}")
+    private String controller;
+
     @Autowired
     private DiscoverCache discoverCache;
+
 
     public void sendBroadcast() throws Exception {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -26,7 +33,7 @@ public class Discover implements DicoverInterface {
 
         //Envia :  ip controllerUrl name date
         broadcast.discoverServers( getFirstNonLoopbackAddress() +
-                " http:/" + getFirstNonLoopbackAddress() + ":8080/controller" +
+                " http:/" + getFirstNonLoopbackAddress() + ":8080/" + controller +
                 " " + InetAddress.getLocalHost().getHostName() +
                 " " + nowString
         );
@@ -38,21 +45,7 @@ public class Discover implements DicoverInterface {
         discoverCache.insertPeer(peer);
     }
 
-    private String getFirstNonLoopbackAddress() throws SocketException {
-        Enumeration enumerationInterfaces = NetworkInterface.getNetworkInterfaces();
-        while (enumerationInterfaces.hasMoreElements()) {
-            NetworkInterface anInterface = (NetworkInterface) enumerationInterfaces.nextElement();
-            for (Enumeration enumerationAddresses = anInterface.getInetAddresses(); enumerationAddresses.hasMoreElements();) {
-                InetAddress addr = (InetAddress) enumerationAddresses.nextElement();
-                if (!addr.isLoopbackAddress()) {
-                    if (addr instanceof Inet4Address) {
-                        return addr.toString();
-                    }
-
-                }
-            }
-        }
-        return null;
+    public DiscoverCache getDiscoverCache() {
+        return discoverCache;
     }
-
 }

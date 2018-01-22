@@ -33,7 +33,7 @@ public class ServiceController {
     }
 
 
-    @Scheduled(fixedRate = 15*60*1000)
+    @Scheduled(fixedRate = 15 * 60 * 1000)
     public void reportCurrentTime() throws Exception {
         discover.sendBroadcast();
     }
