@@ -5,12 +5,15 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BroadcastingClient {
     private DatagramSocket socket;
     private InetAddress address;
     private int expectedServerCount;
     private byte[] buf;
+    private Logger logger = LoggerFactory.getLogger(BroadcastingClient.class);
 
     public BroadcastingClient(int expectedServerCount) throws Exception {
         this.expectedServerCount = expectedServerCount;
@@ -50,13 +53,14 @@ public class BroadcastingClient {
     }
 
     void receivePacket() throws IOException {
+
         buf = new byte[1024];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
         socket.receive(packet);
         String received = new String (packet.getData(), 0, packet.getLength());
         InetAddress address = packet.getAddress();
-        System.out.println(received);
-        System.out.println(address.toString());
+        logger.info("recibido "+received+".");
+        logger.info("direccion "+address.toString()+".");
     }
 
     public void close() {

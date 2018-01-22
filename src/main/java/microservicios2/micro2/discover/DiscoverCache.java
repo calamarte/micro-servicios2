@@ -5,16 +5,20 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Calendar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @Component
 public class DiscoverCache implements Cache{
     private ArrayList<Peer> discoveredPeers = new ArrayList<>();
+    private Logger logger = LoggerFactory.getLogger(DiscoverCache.class);
 
     public void insertPeer(Peer newPeer){
         System.out.println("--------------------------------------------------------");
         for (Peer peer : discoveredPeers) {
-            System.out.println(peer.toString());
+            logger.info("peer encontrado");
+            logger.info("info peer: "+peer.toString());
         }
         System.out.println("--------------------------------------------------------");
         if(exist(newPeer.getIp())){
@@ -25,18 +29,16 @@ public class DiscoverCache implements Cache{
         discoveredPeers.add(newPeer);
     }
 
-    @Scheduled(fixedRate =  30 * 60 * 1000)
+    @Scheduled(fixedRate =  30*60*1000)
     public void purge(){
         long currentTime = Calendar.getInstance().getTime().getTime();
         for(int peerIndex = 0; peerIndex < discoveredPeers.size(); peerIndex++){
             Peer peer = discoveredPeers.get(peerIndex);
-            if(peer.getDate().getTime() < (currentTime - 15 * 60 * 1000)){
+            if(peer.getDate().getTime() < (currentTime - 15*60*1000)){
                 discoveredPeers.remove(peerIndex);
             }
-
-            System.out.println(peer.getDate().getTime());
         }
-        System.out.println("purgado");
+        logger.info("peer purgado");
     }
 
     private boolean exist(String ip){
