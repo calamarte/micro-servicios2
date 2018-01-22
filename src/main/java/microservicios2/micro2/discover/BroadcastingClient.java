@@ -20,9 +20,7 @@ public class BroadcastingClient {
     public int discoverServers(String msg) throws IOException {
         initializeSocketForBroadcasting();
         copyMessageOnBuffer(msg);
-
         broadcastPacket(address);
-
         return receivePackets();
     }
 

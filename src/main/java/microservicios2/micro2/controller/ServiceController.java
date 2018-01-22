@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
-
 @RestController
 public class ServiceController {
 
@@ -33,7 +32,7 @@ public class ServiceController {
     }
 
 
-    @Scheduled(fixedRate = 15 * 60 * 1000)
+    @Scheduled(fixedRate = 3000)
     public void reportCurrentTime() throws Exception {
         discover.sendBroadcast();
     }
