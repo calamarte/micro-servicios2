@@ -27,7 +27,7 @@ public class BroadcastingEchoServer extends Thread {
             try {
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
-                //int port = packet.getPort();
+                int port = packet.getPort();
                 String received = new String(packet.getData(), 0, packet.getLength());
 
                 String data = received.replaceAll("\00","");
