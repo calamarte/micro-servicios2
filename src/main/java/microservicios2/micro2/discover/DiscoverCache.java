@@ -64,4 +64,14 @@ public class DiscoverCache implements Cache{
         }
     }
 
+    @Override
+    public String toString() {
+        StringBuilder peers = new StringBuilder();
+        for (Peer peer :discoveredPeers) {
+            peers.append(peer.toString());
+            peers.append("</br>");
+        }
+        return peers.toString();
+    }
+
 }
