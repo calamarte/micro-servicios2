@@ -31,6 +31,11 @@ public class ServiceController {
         discover.insert(peer);
     }
 
+    @RequestMapping(path = "/peers")
+    public String showPeers(){
+        return discover.getDiscoverCache().toString();
+    }
+
 
     @Scheduled(fixedRate = 3000)
     public void reportCurrentTime() throws Exception {
