@@ -27,11 +27,9 @@ public class Discover implements DicoverInterface {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date now = Calendar.getInstance().getTime();
         String nowString = dateFormat.format(now);
-
-
         BroadcastingClient broadcast = new BroadcastingClient(0);
 
-        //Envia :  ip controllerUrl name date
+        /* IP + ControllerURL:8080 + Name + Date */
         broadcast.discoverServers( getFirstNonLoopbackAddress() +
                 " http:/" + getFirstNonLoopbackAddress() + ":8080/" + controller +
                 " " + InetAddress.getLocalHost().getHostName() +
