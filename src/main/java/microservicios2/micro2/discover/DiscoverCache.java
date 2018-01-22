@@ -24,17 +24,17 @@ public class DiscoverCache implements Cache{
 
         discoveredPeers.add(newPeer);
     }
-
-    @Scheduled(fixedRate =  30 * 60 * 1000)
+    //30 * 60 * 1000
+    @Scheduled(fixedRate =  8000)
     public void purge(){
         long currentTime = Calendar.getInstance().getTime().getTime();
         for(int peerIndex = 0; peerIndex < discoveredPeers.size(); peerIndex++){
             Peer peer = discoveredPeers.get(peerIndex);
-            if(peer.getDate().getTime() < (currentTime - 15 * 60 * 1000)){
+            //15 * 60 * 1000
+            if(peer.getDate().getTime() < (currentTime - 4000)){
                 discoveredPeers.remove(peerIndex);
             }
 
-            System.out.println(peer.getDate().getTime());
         }
         System.out.println("purgado");
     }
@@ -57,4 +57,13 @@ public class DiscoverCache implements Cache{
         }
     }
 
+    @Override
+    public String toString() {
+        StringBuilder peers = new StringBuilder();
+        for (Peer peer :discoveredPeers) {
+            peers.append(peer.toString());
+            peers.append("</br>");
+        }
+        return peers.toString();
+    }
 }
