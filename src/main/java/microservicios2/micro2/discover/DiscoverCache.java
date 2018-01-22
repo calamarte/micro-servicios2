@@ -3,6 +3,7 @@ package microservicios2.micro2.discover;
 import com.sun.javafx.util.Logging;
 import microservicios2.micro2.controller.Peer;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
@@ -12,6 +13,9 @@ import org.slf4j.Logger;
 
 @Component
 public class DiscoverCache implements Cache{
+    @Value("${inactivitiLimit}")
+    private int inactivityLimit;
+
     private ArrayList<Peer> discoveredPeers = new ArrayList<>();
     private Logger logger = LoggerFactory.getLogger(DiscoverCache.class);
 
@@ -34,7 +38,7 @@ public class DiscoverCache implements Cache{
         long currentTime = Calendar.getInstance().getTime().getTime();
         for(int peerIndex = 0; peerIndex < discoveredPeers.size(); peerIndex++){
             Peer peer = discoveredPeers.get(peerIndex);
-            if(peer.getDate().getTime() < (currentTime - 15 * 60 * 1000)){
+            if(peer.getDate().getTime() < (currentTime - inactivityLimit)){
                 discoveredPeers.remove(peerIndex);
             }
         }

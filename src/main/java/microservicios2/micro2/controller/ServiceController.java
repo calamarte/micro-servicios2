@@ -15,10 +15,10 @@ public class ServiceController {
     @Autowired
     private Discover discover;
 
-    @RequestMapping(value = "/controller/{ip}/{time}/{name}",method = RequestMethod.POST)
+    @RequestMapping(value = "/${controller}/{ip}/{time}/{name}",method = RequestMethod.POST)
     public void getMessage(@PathVariable("ip") String ip,
-                             @PathVariable("time") String time,
-                             @PathVariable("name") String name){
+                           @PathVariable("time") String time,
+                           @PathVariable("name") String name){
 
         Date date = new Date();
         date.setTime(Long.parseLong(time));
@@ -37,7 +37,7 @@ public class ServiceController {
     }
 
 
-    @Scheduled(fixedRate = 3000)
+    @Scheduled(fixedRateString = "${discoverInterval}")
     public void reportCurrentTime() throws Exception {
         discover.sendBroadcast();
     }
