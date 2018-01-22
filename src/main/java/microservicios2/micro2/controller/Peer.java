@@ -39,8 +39,8 @@ public class Peer {
     @Override
     public String toString() {
         DateFormat format = new SimpleDateFormat("HH:mm:ss");
-        return "ip: "+this.ip+"\n" +
-                "date: "+format.format(this.date)+"\n" +
-                "name: "+this.name;
+        return "IP Address: "+this.ip+"\n" +
+                "Date: "+format.format(this.date)+"\n" +
+                "Name: "+this.name;
     }
 }

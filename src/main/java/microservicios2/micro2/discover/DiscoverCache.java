@@ -19,7 +19,7 @@ public class DiscoverCache implements Cache{
         System.out.println("--------------------------------------------------------");
         for (Peer peer : discoveredPeers) {
             logger.info("Peer found");
-            logger.info("Info peer: " + peer.toString());
+            logger.info("Info peer: \n" + peer.toString());
         }
         System.out.println("--------------------------------------------------------");
         if(exist(newPeer.getIp())){

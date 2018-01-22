@@ -51,14 +51,13 @@ public class BroadcastingClient {
     }
 
     void receivePacket() throws IOException {
-
         buf = new byte[1024];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
         socket.receive(packet);
         String received = new String (packet.getData(), 0, packet.getLength());
         InetAddress address = packet.getAddress();
-        logger.info("recibido "+received+".");
-        logger.info("direccion "+address.toString()+".");
+        logger.info("Received "+received+".");
+        logger.info("Address "+address.toString()+".");
     }
 
     public void close() {
