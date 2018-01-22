@@ -1,13 +1,16 @@
 package microservicios2.micro2.controller;
 
 import microservicios2.micro2.discover.Discover;
+import org.omg.CORBA.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
+
 
 @RestController
 public class ServiceController {
@@ -29,11 +32,6 @@ public class ServiceController {
         peer.setName(name);
 
         discover.insert(peer);
-    }
-
-    @RequestMapping(path = "/peers")
-    public String showPeers(){
-        return discover.getDiscoverCache().toString();
     }
 
 
