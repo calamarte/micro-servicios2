@@ -1,7 +1,9 @@
 package microservicios2.micro2.controller;
 
 import microservicios2.micro2.discover.Discover;
+import org.omg.CORBA.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,7 @@ public class ServiceController {
     @Autowired
     private Discover discover;
 
-    @RequestMapping(value = "/controller/{ip}/{time}/{name}",method = RequestMethod.POST)
+    @RequestMapping(value = "/${controller}/{ip}/{time}/{name}",method = RequestMethod.POST)
     public void getMessage(@PathVariable("ip") String ip,
                              @PathVariable("time") String time,
                              @PathVariable("name") String name){
@@ -32,13 +34,8 @@ public class ServiceController {
         discover.insert(peer);
     }
 
-    @RequestMapping(path = "/peers")
-    public String showPeers(){
-        return discover.getDiscoverCache().toString();
-    }
 
-    //15 * 60 * 1000
-    @Scheduled(fixedRate = 4000)
+    @Scheduled(fixedRateString = "${discoverInterval}")
     public void reportCurrentTime() throws Exception {
         discover.sendBroadcast();
     }

@@ -1,6 +1,7 @@
 package microservicios2.micro2.discover;
 
 import microservicios2.micro2.controller.Peer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
@@ -9,6 +10,10 @@ import java.util.Calendar;
 
 @Component
 public class DiscoverCache implements Cache{
+
+    @Value("${inactivityLimit}")
+    int inactivityLimit;
+
     private ArrayList<Peer> discoveredPeers = new ArrayList<>();
 
     public void insertPeer(Peer newPeer){
@@ -24,17 +29,19 @@ public class DiscoverCache implements Cache{
 
         discoveredPeers.add(newPeer);
     }
-    //30 * 60 * 1000
-    @Scheduled(fixedRate =  8000)
+
+    @Scheduled(fixedRateString =  "${purgueInterval}")
     public void purge(){
+
         long currentTime = Calendar.getInstance().getTime().getTime();
         for(int peerIndex = 0; peerIndex < discoveredPeers.size(); peerIndex++){
             Peer peer = discoveredPeers.get(peerIndex);
-            //15 * 60 * 1000
-            if(peer.getDate().getTime() < (currentTime - 4000)){
+            if(peer.getDate().getTime() < (currentTime - inactivityLimit)){
+                System.out.println("entra");
                 discoveredPeers.remove(peerIndex);
             }
 
+            System.out.println(peer.getDate().getTime());
         }
         System.out.println("purgado");
     }
@@ -57,13 +64,4 @@ public class DiscoverCache implements Cache{
         }
     }
 
-    @Override
-    public String toString() {
-        StringBuilder peers = new StringBuilder();
-        for (Peer peer :discoveredPeers) {
-            peers.append(peer.toString());
-            peers.append("</br>");
-        }
-        return peers.toString();
-    }
 }
