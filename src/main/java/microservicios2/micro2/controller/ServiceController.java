@@ -26,12 +26,10 @@ public class ServiceController {
                                         @PathVariable("time") String time,
                                         @PathVariable("name") String name){
 
-        Date currentDate = new Date();
         Date date = new Date();
         date.setTime(Long.parseLong(time));
 
-
-        if(currentDate.getTime() >= date.getTime()){
+        if(ip != null){
             Peer peer = new Peer();
             peer.setIp(ip);
             peer.setDate(date);
