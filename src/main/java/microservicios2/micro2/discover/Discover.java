@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Logger;
 
 
 import static microservicios2.micro2.utils.utils.getFirstNonLoopbackAddress;
@@ -20,7 +21,7 @@ public class Discover implements DicoverInterface {
     private String controller;
 
     @Value("${server.port}")
-    private int port;
+    private int port = 8080;
 
     @Autowired
     private DiscoverCache discoverCache;
