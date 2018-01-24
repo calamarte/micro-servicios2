@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Logger;
 
 
 import static microservicios2.micro2.utils.utils.getFirstNonLoopbackAddress;
@@ -18,6 +19,9 @@ import static microservicios2.micro2.utils.utils.getFirstNonLoopbackAddress;
 public class Discover implements DicoverInterface {
     @Value("${controller}")
     private String controller;
+
+    @Value("${server.port}")
+    private int port = 8080;
 
     @Autowired
     private DiscoverCache discoverCache;
@@ -31,7 +35,7 @@ public class Discover implements DicoverInterface {
 
         /* IP + ControllerURL:8080 + Name + Date */
         broadcast.discoverServers( getFirstNonLoopbackAddress() +
-                " http:/" + getFirstNonLoopbackAddress() + ":8080/" + controller +
+                " http:/" + getFirstNonLoopbackAddress() + ":"+port+"/" + controller +
                 " " + InetAddress.getLocalHost().getHostName() +
                 " " + nowString
         );

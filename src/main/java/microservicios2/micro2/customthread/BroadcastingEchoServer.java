@@ -11,7 +11,7 @@ import static microservicios2.micro2.utils.utils.getFirstNonLoopbackAddress;
 @Component
 public class BroadcastingEchoServer extends Thread {
 
-    protected DatagramSocket socket = null;
+    protected DatagramSocket socket;
     protected boolean running;
     protected byte[] buf = new byte[1024];
 
@@ -27,13 +27,12 @@ public class BroadcastingEchoServer extends Thread {
             try {
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
-                int port = packet.getPort();
                 String received = new String(packet.getData(), 0, packet.getLength());
 
                 String data = received.replaceAll("\00","");
                 String[] dataArray = data.split(" ");
 
-                if(dataArray[1].startsWith("http://")) sendHttp(dataArray[1]);
+                if(dataArray.length >= 2 && dataArray[1].startsWith("http://")) sendHttp(dataArray[1]);
 
             } catch (IOException e) {
                 e.printStackTrace();
