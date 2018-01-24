@@ -1,12 +1,15 @@
 package microservicios2.micro2.customthread;
 
+import microservicios2.micro2.discover.DiscoverCache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.net.*;
 import java.util.Calendar;
 
-import static microservicios2.micro2.utils.utils.getFirstNonLoopbackAddress;
+import static microservicios2.micro2.utils.Utils.getFirstNonLoopbackAddress;
 
 @Component
 public class BroadcastingEchoServer extends Thread {
@@ -14,6 +17,8 @@ public class BroadcastingEchoServer extends Thread {
     protected DatagramSocket socket;
     protected boolean running;
     protected byte[] buf = new byte[1024];
+    private Logger logger = LoggerFactory.getLogger(DiscoverCache.class);
+
 
     public BroadcastingEchoServer() throws IOException {
         socket = new DatagramSocket(null);
@@ -34,7 +39,7 @@ public class BroadcastingEchoServer extends Thread {
 
                 if(dataArray.length >= 2 && dataArray[1].startsWith("http://")) sendHttp(dataArray[1]);
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 running = false;
             }
@@ -51,9 +56,13 @@ public class BroadcastingEchoServer extends Thread {
 
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.postForLocation(url + "/"+ip+"/"+now+"/"+name, null);
-        } catch (Exception e) {
+
+        } catch (UnknownHostException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            logger.error("Package refused");
         }
+
     }
 
 }

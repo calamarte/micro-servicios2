@@ -6,7 +6,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-public class utils {
+public class Utils {
 
     public static String getFirstNonLoopbackAddress() throws SocketException {
         Enumeration enumerationInterfaces = NetworkInterface.getNetworkInterfaces();

@@ -10,14 +10,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Logger;
 
 
-import static microservicios2.micro2.utils.utils.getFirstNonLoopbackAddress;
+import static microservicios2.micro2.utils.Utils.getFirstNonLoopbackAddress;
 
 @Service
 public class Discover implements DicoverInterface {
-    @Value("${controller}")
+    @Value("${peersListenerPath}")
     private String controller;
 
     @Value("${server.port}")

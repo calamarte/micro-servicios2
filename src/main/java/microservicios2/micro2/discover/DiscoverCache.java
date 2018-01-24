@@ -20,12 +20,10 @@ public class DiscoverCache implements Cache{
     private Logger logger = LoggerFactory.getLogger(DiscoverCache.class);
 
     public void insertPeer(Peer newPeer){
-        System.out.println("--------------------------------------------------------");
         for (Peer peer : discoveredPeers) {
             logger.info("Peer found");
-            logger.info("Info peer: \n" + peer.toString());
+            logger.info("Info peer:" + peer.toString());
         }
-        System.out.println("--------------------------------------------------------");
         if(exist(newPeer.getIp())){
             update(newPeer);
             return;
@@ -34,7 +32,7 @@ public class DiscoverCache implements Cache{
         discoveredPeers.add(newPeer);
     }
 
-    @Scheduled(fixedRateString =  "${purgeInterval}")
+    @Scheduled(fixedRateString = "${purgeInterval}")
     public void purge(){
 
         long currentTime = Calendar.getInstance().getTime().getTime();
