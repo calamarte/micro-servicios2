@@ -19,6 +19,9 @@ public class Discover implements DicoverInterface {
     @Value("${controller}")
     private String controller;
 
+    @Value("${server.port}")
+    private int port;
+
     @Autowired
     private DiscoverCache discoverCache;
 
@@ -31,7 +34,7 @@ public class Discover implements DicoverInterface {
 
         /* IP + ControllerURL:8080 + Name + Date */
         broadcast.discoverServers( getFirstNonLoopbackAddress() +
-                " http:/" + getFirstNonLoopbackAddress() + ":8080/" + controller +
+                " http:/" + getFirstNonLoopbackAddress() + ":"+port+"/" + controller +
                 " " + InetAddress.getLocalHost().getHostName() +
                 " " + nowString
         );
