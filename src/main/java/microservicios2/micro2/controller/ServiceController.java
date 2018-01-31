@@ -48,7 +48,7 @@ public class ServiceController {
     }
 
     @Scheduled(fixedRateString = "${discoverInterval}")
-    public void reportCurrentTime() throws Exception {
+    public void setDiscover() throws Exception {
         discover.sendBroadcast();
     }
 }
